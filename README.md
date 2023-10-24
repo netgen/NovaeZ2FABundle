@@ -1,5 +1,6 @@
-
 # Netgen Ibexa 2FA Bundle
+
+### This bundle is in the alpha stage and is not recommended for production use.
 
 ----
 
