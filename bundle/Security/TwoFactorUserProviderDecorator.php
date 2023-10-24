@@ -1,41 +1,25 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Yassine HANINI
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Security;
+namespace Netgen\Bundle\Ibexa2FABundle\Security;
 
-use eZ\Publish\API\Repository\Values\User\User as APIUser;
-use eZ\Publish\Core\MVC\Symfony\Security\User;
-use eZ\Publish\Core\MVC\Symfony\Security\User\APIUserProviderInterface;
-use Novactive\Bundle\eZ2FABundle\Core\SiteAccessAwareAuthenticatorResolver;
+use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
+use Ibexa\Core\MVC\Symfony\Security\User;
+use Ibexa\Core\MVC\Symfony\Security\User\APIUserProviderInterface;
+use Netgen\Bundle\Ibexa2FABundle\Core\SiteAccessAwareAuthenticatorResolver;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 final class TwoFactorUserProviderDecorator implements UserProviderInterface, APIUserProviderInterface
 {
-    /**
-     * @var UserProviderInterface|APIUserProviderInterface
-     */
-    private $provider;
+    private UserProviderInterface|APIUserProviderInterface $provider;
 
-    /**
-     * @var SiteAccessAwareAuthenticatorResolver
-     */
-    private $saAuthenticatorResolver;
+    private SiteAccessAwareAuthenticatorResolver $saAuthenticatorResolver;
 
     public function __construct(
         UserProviderInterface $provider,
-        SiteAccessAwareAuthenticatorResolver $saAuthenticatorResolver
+        SiteAccessAwareAuthenticatorResolver $saAuthenticatorResolver,
     ) {
         $this->provider = $provider;
         $this->saAuthenticatorResolver = $saAuthenticatorResolver;

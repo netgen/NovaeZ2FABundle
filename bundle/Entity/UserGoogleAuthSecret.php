@@ -1,31 +1,18 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Yassine HANINI
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Entity;
+namespace Netgen\Bundle\Ibexa2FABundle\Entity;
 
-use eZ\Publish\API\Repository\Values\User\User as APIUser;
-use eZ\Publish\Core\MVC\Symfony\Security\User;
+use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
+use Ibexa\Core\MVC\Symfony\Security\User;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 
 final class UserGoogleAuthSecret extends User implements TwoFactorInterface, BackupCodeInterface, AuthenticatorInterface
 {
     use BackupCodeAware;
 
-    /**
-     * @var string|null
-     */
-    private $secret;
+    private ?string $secret;
 
     public function __construct(APIUser $user, array $roles = [])
     {

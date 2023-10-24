@@ -1,20 +1,10 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Maxim Strukov <maxim.strukov@almaviacx.com>
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Core;
+namespace Netgen\Bundle\Ibexa2FABundle\Core;
 
-use Novactive\Bundle\eZ2FABundle\Entity\UserEmailAuth;
+use Netgen\Bundle\Ibexa2FABundle\Entity\UserEmailAuth;
 use Scheb\TwoFactorBundle\Mailer\AuthCodeMailerInterface;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Email\Generator\CodeGeneratorInterface;

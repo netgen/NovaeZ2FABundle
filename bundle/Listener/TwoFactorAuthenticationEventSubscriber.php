@@ -1,20 +1,10 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Maxim Strukov <maxim.strukov@almaviacx.com>
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Listener;
+namespace Netgen\Bundle\Ibexa2FABundle\Listener;
 
-use Novactive\Bundle\eZ2FABundle\Core\SiteAccessAwareAuthenticatorResolver;
+use Netgen\Bundle\Ibexa2FABundle\Core\SiteAccessAwareAuthenticatorResolver;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Event\TwoFactorAuthenticationEvent;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Event\TwoFactorAuthenticationEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

@@ -1,18 +1,8 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Maxim Strukov <maxim.strukov@almaviacx.com>
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Form\Type;
+namespace Netgen\Bundle\Ibexa2FABundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

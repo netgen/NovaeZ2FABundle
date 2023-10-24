@@ -1,29 +1,16 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Yassine HANINI
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Listener;
+namespace Netgen\Bundle\Ibexa2FABundle\Listener;
 
-use eZ\Publish\API\Repository\Events\User\DeleteUserEvent;
-use Novactive\Bundle\eZ2FABundle\Core\UserRepository;
+use Ibexa\Contracts\Core\Repository\Events\User\DeleteUserEvent;
+use Netgen\Bundle\Ibexa2FABundle\Core\UserRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class UserEventSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
+    private UserRepository $userRepository;
 
     public function __construct(UserRepository $userRepository)
     {

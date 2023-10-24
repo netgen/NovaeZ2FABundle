@@ -1,18 +1,8 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Maxim Strukov <maxim.strukov@almaviacx.com>
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\DependencyInjection;
+namespace Netgen\Bundle\Ibexa2FABundle\DependencyInjection;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\Configuration as SAConfiguration;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
@@ -20,7 +10,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class Configuration extends SAConfiguration
 {
-    public const NAMESPACE = 'nova_ez2fa';
+    public const NAMESPACE = 'netgen_ibexa2fa';
 
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -37,7 +27,7 @@ class Configuration extends SAConfiguration
                             TotpConfiguration::ALGORITHM_SHA1,
                             TotpConfiguration::ALGORITHM_SHA256,
                             TotpConfiguration::ALGORITHM_SHA512,
-                        ]
+                        ],
                     )->end()
                     ->integerNode('period')->end()
                     ->integerNode('digits')->end()

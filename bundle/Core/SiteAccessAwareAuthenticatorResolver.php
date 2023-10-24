@@ -1,91 +1,56 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Maxim Strukov <maxim.strukov@almaviacx.com>
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Core;
+namespace Netgen\Bundle\Ibexa2FABundle\Core;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Security\User;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
-use Novactive\Bundle\eZ2FABundle\DependencyInjection\Configuration;
-use Novactive\Bundle\eZ2FABundle\Entity\AuthenticatorInterface;
-use Novactive\Bundle\eZ2FABundle\Entity\BackupCodeInterface;
-use Novactive\Bundle\eZ2FABundle\Entity\UserEmailAuth;
-use Novactive\Bundle\eZ2FABundle\Entity\UserGoogleAuthSecret;
-use Novactive\Bundle\eZ2FABundle\Entity\UserTotpAuthSecret;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Security\User;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Netgen\Bundle\Ibexa2FABundle\DependencyInjection\Configuration;
+use Netgen\Bundle\Ibexa2FABundle\Entity\AuthenticatorInterface;
+use Netgen\Bundle\Ibexa2FABundle\Entity\BackupCodeInterface;
+use Netgen\Bundle\Ibexa2FABundle\Entity\UserEmailAuth;
+use Netgen\Bundle\Ibexa2FABundle\Entity\UserGoogleAuthSecret;
+use Netgen\Bundle\Ibexa2FABundle\Entity\UserTotpAuthSecret;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticator;
 
+use function is_array;
+use function json_decode;
+use function json_encode;
+use function random_int;
+
 final class SiteAccessAwareAuthenticatorResolver implements SiteAccessAware
 {
-    /**
-     * @var SiteAccess|null
-     */
-    private $siteAccess;
+    private ?SiteAccess $siteAccess;
 
-    /**
-     * @var string
-     */
-    private $method;
+    private string $method;
 
-    /**
-     * @var array
-     */
-    private $config;
+    private array $config;
 
-    /**
-     * @var ConfigResolverInterface
-     */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /**
-     * @var GoogleAuthenticator
-     */
-    private $googleAuthenticator;
+    private GoogleAuthenticator $googleAuthenticator;
 
-    /**
-     * @var TotpAuthenticator
-     */
-    private $totpAuthenticator;
+    private TotpAuthenticator $totpAuthenticator;
 
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
+    private UserRepository $userRepository;
 
-    /**
-     * @var bool
-     */
-    private $backupCodesEnabled;
+    private bool $backupCodesEnabled;
 
-    /**
-     * @var bool
-     */
-    private $emailMethodEnabled;
+    private bool $emailMethodEnabled;
 
-    /**
-     * @var bool
-     */
-    private $forceSetup;
+    private bool $forceSetup;
 
     public function __construct(
         ConfigResolverInterface $configResolver,
         GoogleAuthenticator $googleAuthenticator,
         TotpAuthenticator $totpAuthenticator,
         UserRepository $userRepository,
-        bool $backupCodesEnabled
+        bool $backupCodesEnabled,
     ) {
         $this->configResolver = $configResolver;
         $this->googleAuthenticator = $googleAuthenticator;
@@ -97,34 +62,10 @@ final class SiteAccessAwareAuthenticatorResolver implements SiteAccessAware
     /**
      * @required
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null): void
+    public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
         $this->setConfig();
-    }
-
-    private function setConfig(): void
-    {
-        $this->method = $this->configResolver->getParameter(
-            '2fa_mobile_method',
-            Configuration::NAMESPACE,
-            $this->siteAccess->name
-        );
-        $this->config = $this->configResolver->getParameter(
-            'config',
-            Configuration::NAMESPACE,
-            $this->siteAccess->name
-        );
-        $this->emailMethodEnabled = $this->configResolver->getParameter(
-            '2fa_email_method_enabled',
-            Configuration::NAMESPACE,
-            $this->siteAccess->name
-        );
-        $this->forceSetup = $this->configResolver->getParameter(
-            '2fa_force_setup',
-            Configuration::NAMESPACE,
-            $this->siteAccess->name
-        );
     }
 
     public function getMethod(): ?string
@@ -169,10 +110,7 @@ final class SiteAccessAwareAuthenticatorResolver implements SiteAccessAware
             $this->method = 'email';
         }
 
-        if (
-            false === $userAuthData ||
-            ('email' !== $this->method && empty($userAuthData["{$this->method}_authentication_secret"]))
-        ) {
+        if ('email' !== $this->method && empty($userAuthData["{$this->method}_authentication_secret"])) {
             return $user;
         }
 
@@ -220,7 +158,7 @@ final class SiteAccessAwareAuthenticatorResolver implements SiteAccessAware
                 $user->getAPIUser()->getUserId(),
                 $formData['secretKey'],
                 $this->method,
-                isset($backupCodes) ? json_encode($backupCodes) : ''
+                isset($backupCodes) ? json_encode($backupCodes) : '',
             );
 
             return [
@@ -254,11 +192,11 @@ final class SiteAccessAwareAuthenticatorResolver implements SiteAccessAware
             return true;
         }
 
-        return is_array($userAuthData) &&
-               (
-                   !empty($userAuthData['google_authentication_secret']) ||
-                   !empty($userAuthData['totp_authentication_secret']) ||
-                   !empty($userAuthData['microsoft_authentication_secret'])
+        return is_array($userAuthData)
+               && (
+                   !empty($userAuthData['google_authentication_secret'])
+                   || !empty($userAuthData['totp_authentication_secret'])
+                   || !empty($userAuthData['microsoft_authentication_secret'])
                );
     }
 
@@ -270,5 +208,29 @@ final class SiteAccessAwareAuthenticatorResolver implements SiteAccessAware
     public function deleteUserAuthSecretAndEmail(User $user): void
     {
         $this->userRepository->deleteUserAuthSecretAndEmail($user->getAPIUser()->getUserId(), $this->method);
+    }
+
+    private function setConfig(): void
+    {
+        $this->method = $this->configResolver->getParameter(
+            '2fa_mobile_method',
+            Configuration::NAMESPACE,
+            $this->siteAccess->name,
+        );
+        $this->config = $this->configResolver->getParameter(
+            'config',
+            Configuration::NAMESPACE,
+            $this->siteAccess->name,
+        );
+        $this->emailMethodEnabled = $this->configResolver->getParameter(
+            '2fa_email_method_enabled',
+            Configuration::NAMESPACE,
+            $this->siteAccess->name,
+        );
+        $this->forceSetup = $this->configResolver->getParameter(
+            '2fa_force_setup',
+            Configuration::NAMESPACE,
+            $this->siteAccess->name,
+        );
     }
 }

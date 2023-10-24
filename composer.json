@@ -1,6 +1,6 @@
 {
-    "name": "novactive/ez2fabundle",
-    "description": "Novactive eZ 2FA Bundle is an eZ Platform bundle that provides two-factor authentication for your ezplatform project",
+    "name": "netgen/ibexa-2fa-bundle",
+    "description": "Netgen ibexa 2FA Bundle is an ibexa bundle that provides two-factor authentication for your ezplatform project",
     "keywords": [
         "two-factor",
         "authentication",
@@ -8,31 +8,31 @@
         "novactive",
         "ezplatform"
     ],
-    "homepage": "https://github.com/Novactive/NovaeZ2FABundle",
-    "type": "ezplatform-bundle",
+    "homepage": "https://github.com/netgen/NovaIbexa2FABundle",
+    "type": "ibexa-bundle",
     "authors": [
         {
-            "name": "Novactive",
-            "homepage": "https://www.novactive.us",
-            "email": "dir.tech@novactive.com"
+            "name": "Netgen",
+            "homepage": "https://www.netgen.io",
+            "email": "info@netgen.io"
         },
         {
-            "name": "Sebastien Morel",
-            "homepage": "https://github.com/Plopix",
-            "email": "morel.seb@gmail.com"
+            "name": "Borna Matijanic",
+            "homepage": "https://github.com/ludwig031",
+            "email": "borna.m@netgen.io"
         }
     ],
     "license": [
         "MIT"
     ],
     "require": {
-        "php": "^7.3",
-        "scheb/2fa-bundle": "^5.0",
-        "scheb/2fa-google-authenticator": "^5.0",
-        "scheb/2fa-totp": "^5.0",
-        "scheb/2fa-trusted-device": "^5.0",
-        "scheb/2fa-backup-code":  "^5.0",
-        "scheb/2fa-email": "^5.0",
+        "php": "^8.1",
+        "scheb/2fa-bundle": "^6.9",
+        "scheb/2fa-google-authenticator": "^6.9",
+        "scheb/2fa-totp": "^6.9",
+        "scheb/2fa-trusted-device": "^6.9",
+        "scheb/2fa-backup-code":  "^^6.9",
+        "scheb/2fa-email": "^6.9",
         "bacon/bacon-qr-code": "^2.0"
     },
     "require-dev": {
@@ -40,13 +40,20 @@
     },
     "autoload": {
         "psr-4": {
-            "Novactive\\Bundle\\eZ2FABundle\\": "bundle"
+            "Netgen\\Bundle\\Ibexa2FABundle\\": "bundle"
         }
     },
     "extra": {
-        "thanks": {
-            "name": "ezsystems/ezplatform",
-            "url": "https://github.com/ezsystems/ezplatform"
-        }
+        "thanks": [
+            {
+                "name": "novactive/Ibexa2FABundle",
+                "url": "https://github.com/Novactive/NovaIbexa2FABundle"
+            },
+            {
+                "name": "ezsystems/ezplatform",
+                "url": "https://github.com/ezsystems/ezplatform"
+            }
+
+        ]
     }
 }

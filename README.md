@@ -1,28 +1,24 @@
-# Novactive eZ 2FA Bundle
+
+# Netgen Ibexa 2FA Bundle
 
 ----
 
-This repository is what we call a "subtree split": a read-only copy of one directory of the main repository. 
-It is used by Composer to allow developers to depend on specific bundles.
-
-If you want to report or contribute, you should instead open your issue on the main repository: https://github.com/Novactive/Nova-eZPlatform-Bundles
-
-Documentation is available in this repository via `.md` files but also packaged here: https://novactive.github.io/Nova-eZPlatform-Bundles/master/2FABundle/README.md.html
+This repository is forked from Novactive/NovaeZ2FABundle and upgraded to work with Ibexa 4.x
 
 ----
 
-Novactive eZ 2FA Bundle provides two-factor authentication for your ezplatform/ibexa project.
+Netgen Ibexa 2FA Bundle provides two-factor authentication for your ibexa project.
 
 ## Installation
 
 ### Requirements
 
-* eZ Platform 3.1+
-* PHP 7.3
+* Ibexa 4.x
+* PHP 8.1
 
 ### Use Composer
 
-Add the lib to your composer.json, run `composer require novactive/ez2fabundle` to refresh dependencies.
+Add the lib to your composer.json, run `composer require netgen/ibexa2fabundle` to refresh dependencies.
 
 ### Register the bundle
 
@@ -32,7 +28,7 @@ Then inject the bundle in the `config\bundles.php` of your application.
     return [
         // ...
         Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
-        Novactive\Bundle\eZ2FABundle\NovaeZ2FABundle::class => [ 'all'=> true ],
+        Netgen\Bundle\Ibexa2FABundle\NetgenIbexa2FABundle::class => [ 'all'=> true ],
     ];
 ```
 
@@ -41,10 +37,10 @@ Then inject the bundle in the `config\bundles.php` of your application.
 Make sure you add this route to your routing:
 
 ```yaml
-# config/routes.yaml
+# config/app/routes.yaml
 
-_novaez2fa_routes:
-    resource: '@NovaeZ2FABundle/Resources/config/routing.yaml'
+_netgen_ibexa2fa_routes:
+    resource: '@NetgenIbexa2FABundle/Resources/config/routing.yaml'
 
 ```
 
@@ -57,11 +53,11 @@ security:
     ...
     firewalls:
         ...
-        ezpublish_front:
+        ibexa_front:
             pattern: ^/
-            user_checker: eZ\Publish\Core\MVC\Symfony\Security\UserChecker
+            user_checker: Ibexa\Core\MVC\Symfony\Security\UserChecker
             anonymous: ~
-            ezpublish_rest_session: ~
+            ibexa_rest_session: ~
             form_login:
                 require_previous_session: false
                 csrf_token_generator: security.csrf.token_manager
@@ -95,16 +91,16 @@ The values can be updated according to the project specification
 scheb_two_factor:
 
     backup_codes:
-        enabled: '%nova_ez2fa.backup_codes.enabled%' # Reading the value from the nova_ez2fa.backup_codes.enabled value in parameters section
-        manager: Novactive\Bundle\eZ2FABundle\Core\BackupCodeManager # This should either remain or be replaced with another one developed for that purpose
+        enabled: '%netgen_ibexa2fa.backup_codes.enabled%' # Reading the value from the nova_ez2fa.backup_codes.enabled value in parameters section
+        manager: Netgen\Bundle\Ibexa2FABundle\Core\BackupCodeManager # This should either remain or be replaced with another one developed for that purpose
 
     google:
         enabled: true
-        server_name: Local Ez Server                # Server name used in QR code
-        issuer: EzIssuer                            # Issuer name used in QR code
+        server_name: Local Ibexa Server                # Server name used in QR code
+        issuer: IbexaIssuer                            # Issuer name used in QR code
         digits: 6                                   # Number of digits in authentication code
         window: 1                                   # How many codes before/after the current one would be accepted as valid
-        template: "@ezdesign/2fa/auth.html.twig"    # Template for the 2FA login page
+        template: "@ibexadesign/2fa/auth.html.twig"    # Template for the 2FA login page
 
     # TOTP Authenticator config
     totp:
@@ -112,7 +108,7 @@ scheb_two_factor:
         server_name: Server Name                    # Server name used in QR code
         issuer: TOTP Issuer                         # Issuer name used in QR code
         window: 1                                   # How many codes before/after the current one would be accepted as valid
-        template: "@ezdesign/2fa/auth.html.twig"    # Template used to render the authentication form
+        template: "@ibexadesign/2fa/auth.html.twig"    # Template used to render the authentication form
 
     # Trusted device feature
     trusted_device:
@@ -128,12 +124,12 @@ scheb_two_factor:
 
     email:
         enabled: true                            # If email authentication should be enabled, default false
-        mailer: Novactive\Bundle\eZ2FABundle\Core\AuthCodeMailer # Use alternative service to send the authentication code
-        code_generator: Novactive\Bundle\eZ2FABundle\Core\EmailCodeGenerator # Use alternative service to generate authentication code
+        mailer: Netgen\Bundle\Ibexa2FABundle\Core\AuthCodeMailer # Use alternative service to send the authentication code
+        code_generator: Netgen\Bundle\Ibexa2FABundle\Core\EmailCodeGenerator # Use alternative service to generate authentication code
         sender_email: me@example.com             # Sender email address
         sender_name: John Doe                    # Sender name
         digits: 6                                # Number of digits in authentication code
-        template: "@ezdesign/2fa/auth.html.twig" # Template used to render the authentication form
+        template: "@ibexadesign/2fa/auth.html.twig" # Template used to render the authentication form
 
     # The security token classes, which trigger two-factor authentication.
     # By default the bundle only reacts to Symfony's username+password authentication. If you want to enable
@@ -155,14 +151,14 @@ parameters:
 
 If email method is enabled then **MAILER_DSN** env variable should be specified in the .env file
 
-For full **scheb_two_factor** reference visit the following resource: https://github.com/scheb/two-factor-bundle/blob/4.x/Resources/doc/configuration.md
+For full **scheb_two_factor** reference visit the following resource: https://github.com/scheb/2fa/blob/6.x/doc/configuration.rst
 
 > **Note to keep in mind**: This bundle is Siteaccess aware so each Siteaccess can have different authentication method.
 
 ```yaml
 # config/packages/nova_ez2fa.yaml
 
-nova_ez2fa:
+netgen_ibexa2fa:
     system:
         # Available mobile methods - google, totp, microsoft or null.
         # If microsoft is selected the totp mechanism is still used but the config is forced and static so Microsoft Authenticator app can be used.
@@ -198,8 +194,6 @@ if (req.url ~ "^/2fa") {
 and it should be added before the `call ez_user_context_hash` line.
 
 We need it in order to avoid triggering the X User Hash mechanism when /2fa request is sent, so the `/_fos_user_context_hash` request would not return 302 redirect response because of this bundle.
-
-#### [Upgrade Instructions](UPGRADE.md)
 
 ### Manually removing 2FA record for specific User:
 

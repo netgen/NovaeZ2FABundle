@@ -1,25 +1,12 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Yassine HANINI
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Entity;
+namespace Netgen\Bundle\Ibexa2FABundle\Entity;
 
 trait BackupCodeAware
 {
-    /**
-     * @var array
-     */
-    private $backupCodes = [];
+    private array $backupCodes = [];
 
     public function isBackupCode(string $code): bool
     {

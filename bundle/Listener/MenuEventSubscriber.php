@@ -1,35 +1,23 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Maxim Strukov <maxim.strukov@almaviacx.com>
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Listener;
+namespace Netgen\Bundle\Ibexa2FABundle\Listener;
 
-use EzSystems\EzPlatformAdminUi\Menu\Event\ConfigureMenuEvent;
+use Ibexa\AdminUi\Menu\Event\ConfigureMenuEvent;
 use Knp\Menu\Util\MenuManipulator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+use function count;
+
+use const PHP_VERSION_ID;
+
 final class MenuEventSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var MenuManipulator
-     */
-    private $menuManipulator;
+    private MenuManipulator $menuManipulator;
 
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(MenuManipulator $menuManipulator, TranslatorInterface $translator)
     {
@@ -53,7 +41,7 @@ final class MenuEventSubscriber implements EventSubscriberInterface
         $menu = $event->getMenu();
         $newItem = $menu->addChild(
             'user__setup_2fa',
-            ['label' => $this->translator->trans('menu_label', [], 'novaez2fa'), 'route' => '2fa_setup']
+            ['label' => $this->translator->trans('menu_label', [], 'netgen_ibexa2fa'), 'route' => '2fa_setup'],
         );
 
         $this->menuManipulator->moveToPosition($newItem, count($menu->getChildren()) - 2);

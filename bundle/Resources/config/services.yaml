@@ -3,43 +3,41 @@ services:
         autowire: true
         autoconfigure: true
 
-    Novactive\Bundle\eZ2FABundle\Command\Remove2FAForUserCommand: ~
+    Netgen\Bundle\Ibexa2FABundle\Command\Remove2FAForUserCommand: ~
 
-    Novactive\Bundle\eZ2FABundle\Controller\:
+    Netgen\Bundle\Ibexa2FABundle\Controller\:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
-    Novactive\Bundle\eZ2FABundle\Listener\:
+    Netgen\Bundle\Ibexa2FABundle\Listener\:
         resource: '../../Listener'
 
-    Novactive\Bundle\eZ2FABundle\Core\:
+    Netgen\Bundle\Ibexa2FABundle\Core\:
         resource: '../../Core'
 
-    Novactive\Bundle\eZ2FABundle\Core\SiteAccessAwareQueryExecutor:
-        arguments:
-            $repositoryConfigurationProvider: "@ezpublish.api.repository_configuration_provider"
+    Netgen\Bundle\Ibexa2FABundle\Core\SiteAccessAwareQueryExecutor: ~
 
-    Novactive\Bundle\eZ2FABundle\Security\TwoFactorUserProviderDecorator:
-        decorates: 'ezpublish.security.user_provider'
+    Netgen\Bundle\Ibexa2FABundle\Security\TwoFactorUserProviderDecorator:
+        decorates: 'ibexa.security.user_provider'
 
-    Novactive\Bundle\eZ2FABundle\Core\SiteAccessAwareAuthenticatorResolver:
+    Netgen\Bundle\Ibexa2FABundle\Core\SiteAccessAwareAuthenticatorResolver:
         bind:
-            $backupCodesEnabled: '%nova_ez2fa.backup_codes.enabled%'
+            $backupCodesEnabled: '%netgen_ibexa2fa.backup_codes.enabled%'
 
-    Novactive\Bundle\eZ2FABundle\Core\Tab\TwoFAManagement:
+    Netgen\Bundle\Ibexa2FABundle\Core\Tab\TwoFAManagement:
         tags:
-            - { name: ezplatform.tab, group: location-view }
+            - { name: ibexa.admin_ui.tab, group: location-view }
 
-    Novactive\Bundle\eZ2FABundle\Core\EmailCodeGenerator:
+    Netgen\Bundle\Ibexa2FABundle\Core\EmailCodeGenerator:
         bind:
             $mailer: '@scheb_two_factor.security.email.auth_code_mailer'
             $digits: '%scheb_two_factor.email.digits%'
 
-    Novactive\Bundle\eZ2FABundle\Listener\OnHttpRequestListener:
+    Netgen\Bundle\Ibexa2FABundle\Listener\OnHttpRequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
 
-    Novactive\Bundle\eZ2FABundle\Core\AuthCodeMailer:
+    Netgen\Bundle\Ibexa2FABundle\Core\AuthCodeMailer:
         bind:
             $senderEmail: '%scheb_two_factor.email.sender_email%'
             $senderName: '%scheb_two_factor.email.sender_name%'

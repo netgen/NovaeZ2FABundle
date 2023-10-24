@@ -1,18 +1,8 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Maxim Strukov <maxim.strukov@almaviacx.com>
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
-
 declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Core;
+namespace Netgen\Bundle\Ibexa2FABundle\Core;
 
 use PDO;
 
@@ -37,7 +27,7 @@ final class UserRepository
             $query = <<<QUERY
                 UPDATE user_auth_secret
                 SET {$prefix}_authentication_secret = ?, backup_codes = ?
-                WHERE user_contentobject_id = ? 
+                WHERE user_contentobject_id = ?
             QUERY;
             ($this->queryExecutor)(
                 $query,
@@ -46,7 +36,7 @@ final class UserRepository
             );
         } else {
             $query = <<<QUERY
-                INSERT INTO user_auth_secret (user_contentobject_id, {$prefix}_authentication_secret, backup_codes) 
+                INSERT INTO user_auth_secret (user_contentobject_id, {$prefix}_authentication_secret, backup_codes)
                 VALUES (?, ?, ?)
             QUERY;
             ($this->queryExecutor)(
@@ -61,7 +51,7 @@ final class UserRepository
     {
         $query = <<<QUERY
                 DELETE FROM user_auth_secret
-                WHERE user_contentobject_id = ? 
+                WHERE user_contentobject_id = ?
             QUERY;
         ($this->queryExecutor)($query, [$userId], [PDO::PARAM_INT]);
     }
@@ -73,7 +63,7 @@ final class UserRepository
         $query = <<<QUERY
                 UPDATE user_auth_secret
                 SET {$emptySecret} backup_codes = '', email_authentication = 0, email_authentication_code = ''
-                WHERE user_contentobject_id = ? 
+                WHERE user_contentobject_id = ?
             QUERY;
         ($this->queryExecutor)($query, [$userId], [PDO::PARAM_INT]);
     }
@@ -95,7 +85,7 @@ final class UserRepository
         $query = <<<QUERY
                 UPDATE user_auth_secret
                 SET backup_codes = ?
-                WHERE user_contentobject_id = ? 
+                WHERE user_contentobject_id = ?
             QUERY;
         ($this->queryExecutor)($query, [$backupCodes, $userId], [PDO::PARAM_STR, PDO::PARAM_INT]);
     }
@@ -106,12 +96,12 @@ final class UserRepository
             $query = <<<QUERY
                 UPDATE user_auth_secret
                 SET email_authentication = 1
-                WHERE user_contentobject_id = ? 
+                WHERE user_contentobject_id = ?
             QUERY;
             ($this->queryExecutor)($query, [$userId], [PDO::PARAM_INT]);
         } else {
             $query = <<<QUERY
-                INSERT INTO user_auth_secret (user_contentobject_id, email_authentication) 
+                INSERT INTO user_auth_secret (user_contentobject_id, email_authentication)
                 VALUES (?, 1)
             QUERY;
             ($this->queryExecutor)(
@@ -127,7 +117,7 @@ final class UserRepository
         $query = <<<QUERY
                 UPDATE user_auth_secret
                 SET email_authentication_code = ?
-                WHERE user_contentobject_id = ? 
+                WHERE user_contentobject_id = ?
             QUERY;
         ($this->queryExecutor)($query, [$authCode, $userId], [PDO::PARAM_STR, PDO::PARAM_INT]);
     }

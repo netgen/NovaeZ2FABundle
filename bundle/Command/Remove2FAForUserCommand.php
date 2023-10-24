@@ -1,19 +1,11 @@
 <?php
 
-/**
- * NovaeZ2FABundle.
- *
- * @package   NovaeZ2FABundle
- *
- * @author    Maxim Strukov <maxim.strukov@almaviacx.com>
- * @copyright 2021 AlmaviaCX
- * @license   https://github.com/Novactive/NovaeZ2FA/blob/main/LICENSE
- */
+declare(strict_types=1);
 
-namespace Novactive\Bundle\eZ2FABundle\Command;
+namespace Netgen\Bundle\Ibexa2FABundle\Command;
 
-use eZ\Publish\Core\MVC\Symfony\Security\User;
-use Novactive\Bundle\eZ2FABundle\Core\UserRepository;
+use Ibexa\Core\MVC\Symfony\Security\User;
+use Netgen\Bundle\Ibexa2FABundle\Core\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,19 +15,10 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 final class Remove2FAForUserCommand extends Command
 {
-    /**
-     * @var UserProviderInterface
-     */
-    private $userProvider;
+    private UserProviderInterface $userProvider;
 
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
+    private UserRepository $userRepository;
 
-    /**
-     * @required
-     */
     public function setAuthenticators(UserProviderInterface $userProvider, UserRepository $userRepository): self
     {
         $this->userProvider = $userProvider;
@@ -56,7 +39,7 @@ final class Remove2FAForUserCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        /* @var User $user */
+        /** @var User $user */
         $user = $this->userProvider->loadUserByUsername($input->getArgument('user_login'));
 
         $this->userRepository->deleteUserAuthData($user->getAPIUser()->id);
