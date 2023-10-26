@@ -38,6 +38,10 @@ services:
             - { name: kernel.event_listener, event: kernel.request }
 
     Netgen\Bundle\Ibexa2FABundle\Core\AuthCodeMailer:
-        bind:
-            $senderEmail: '%scheb_two_factor.email.sender_email%'
-            $senderName: '%scheb_two_factor.email.sender_name%'
+        arguments:
+            - '@mailer.mailer'
+            - '%scheb_two_factor.email.sender_email%'
+            - '%scheb_two_factor.email.sender_name%'
+            - '@translator'
+            - '@twig'
+            - '@Netgen\Bundle\Ibexa2FABundle\Core\SiteAccessAwareAuthenticatorResolver'

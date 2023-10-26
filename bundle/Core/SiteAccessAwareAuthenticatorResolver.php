@@ -45,6 +45,8 @@ final class SiteAccessAwareAuthenticatorResolver implements SiteAccessAware
 
     private bool $forceSetup;
 
+    private string $emailTemplate;
+
     public function __construct(
         ConfigResolverInterface $configResolver,
         GoogleAuthenticator $googleAuthenticator,
@@ -81,6 +83,11 @@ final class SiteAccessAwareAuthenticatorResolver implements SiteAccessAware
     public function isForceSetup(): bool
     {
         return $this->forceSetup;
+    }
+
+    public function getEmailTemplate(): string
+    {
+        return $this->emailTemplate;
     }
 
     public function getUserAuthenticatorEntity(User $user)
@@ -229,6 +236,11 @@ final class SiteAccessAwareAuthenticatorResolver implements SiteAccessAware
         );
         $this->forceSetup = $this->configResolver->getParameter(
             '2fa_force_setup',
+            Configuration::NAMESPACE,
+            $this->siteAccess->name,
+        );
+        $this->emailTemplate = $this->configResolver->getParameter(
+            '2fa_email_template',
             Configuration::NAMESPACE,
             $this->siteAccess->name,
         );

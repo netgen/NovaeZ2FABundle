@@ -35,6 +35,7 @@ class Configuration extends SAConfiguration
             ->end()
             ->booleanNode('2fa_email_method_enabled')->defaultTrue()->end()
             ->booleanNode('2fa_force_setup')->defaultTrue()->end()
+            ->scalarNode('2fa_email_template')->defaultValue('@ibexadesign/2fa/email/2fa_code.html.twig')->end()
         ->end();
 
         return $treeBuilder;

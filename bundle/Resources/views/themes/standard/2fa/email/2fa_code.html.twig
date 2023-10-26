@@ -1,0 +1,31 @@
+{% block email %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">    <!-- So that mobile webkit will display zoomed in -->
+    <meta name="format-detection" content="telephone=no"> <!-- disable auto telephone linking in iOS -->
+
+    <style type="text/css">
+        body {-webkit-text-size-adjust:none; -ms-text-size-adjust:none; font-family: sans-serif; line-height: 1.2;}
+        body {margin:0; padding:0;}
+        a {color: #e60000;}
+        h1 {font-size: 24px; margin: 20px 0 10px;}
+        h2 {font-size: 20px; margin: 0;}
+        h3 {font-size: 18px; margin: 0;}
+    </style>
+</head>
+<body style="margin:0; padding:30px 10px;" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+    <p style="font-size: 16px; font-weight: 700; color: #242424;">
+        Your code for 2 factor authentication:
+    </p>
+
+    <h2 style="font-size: 26px; font-weight: 700; color: #1D1D1D; padding-bottom: 12px;">
+        {{ code }}
+    </h2>
+
+    <span style="border-bottom: 6px solid #E60000; width: 41px; display: block; margin-bottom: 32px;"></span>
+</body>
+</html>
+{% endblock %}

@@ -10,33 +10,33 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment as TwigEnvironment;
 
 final class AuthCodeMailer implements AuthCodeMailerInterface
 {
-    /**
-     * @var MailerInterface
-     */
-    private $mailer;
+    private MailerInterface $mailer;
 
-    /**
-     * @var Address
-     */
-    private $senderAddress;
+    private Address $senderAddress;
 
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private TranslatorInterface $translator;
+
+    private TwigEnvironment $twig;
+
+    private SiteAccessAwareAuthenticatorResolver $saAuthenticatorResolver;
 
     public function __construct(
         MailerInterface $mailer,
         string $senderEmail,
         ?string $senderName,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        TwigEnvironment $twig,
+        SiteAccessAwareAuthenticatorResolver $saAuthenticatorResolver,
     ) {
         $this->mailer = $mailer;
         $this->senderAddress = new Address($senderEmail, $senderName ?? '');
         $this->translator = $translator;
+        $this->twig = $twig;
+        $this->saAuthenticatorResolver = $saAuthenticatorResolver;
     }
 
     public function sendAuthCode(TwoFactorInterface $user): void
@@ -45,8 +45,14 @@ final class AuthCodeMailer implements AuthCodeMailerInterface
         $message
             ->to($user->getEmailAuthRecipient())
             ->from($this->senderAddress)
-            ->subject($this->translator->trans('email_subject', [], 'novaez2fa'))
-            ->text($user->getEmailAuthCode());
+            ->subject($this->translator->trans('email_subject', [], 'netgen_ibexa2fa'))
+            ->html(
+                $this->twig->render(
+                    $this->saAuthenticatorResolver->getEmailTemplate(),
+                    ['code' => $user->getEmailAuthCode()],
+                ),
+            );
+
         $this->mailer->send($message);
     }
 }
