@@ -27,12 +27,12 @@
     ],
     "require": {
         "php": "^8.1",
-        "scheb/2fa-bundle": "^6.9",
-        "scheb/2fa-google-authenticator": "^6.9",
-        "scheb/2fa-totp": "^6.9",
-        "scheb/2fa-trusted-device": "^6.9",
-        "scheb/2fa-backup-code":  "^6.9",
-        "scheb/2fa-email": "^6.9",
+        "scheb/2fa-bundle": "^5.13",
+        "scheb/2fa-google-authenticator": "^5.13",
+        "scheb/2fa-totp": "^5.13",
+        "scheb/2fa-trusted-device": "^5.13",
+        "scheb/2fa-backup-code":  "^5.13",
+        "scheb/2fa-email": "^5.13",
         "bacon/bacon-qr-code": "^2.0"
     },
     "require-dev": {
