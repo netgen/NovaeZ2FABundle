@@ -61,7 +61,7 @@ class TwoFactorAuthController extends Controller
                 $options = $methodForm->get('method')->getConfig()->getOptions();
                 $options['choices'] = [
                     ucfirst(
-                        $translator->trans('setup_form.method.email', [], 'novaez2fa'),
+                        $translator->trans('setup_form.method.email', [], 'netgen_ibexa2fa'),
                     ) => 'email',
                 ];
                 $options['data'] = 'email';
@@ -129,7 +129,7 @@ class TwoFactorAuthController extends Controller
             }
 
             $qrCodeForm->get('code')->addError(
-                new FormError($translator->trans('setup_form.wrong_code', [], 'novaez2fa')),
+                new FormError($translator->trans('setup_form.wrong_code', [], 'netgen_ibexa2fa')),
             );
         }
 
