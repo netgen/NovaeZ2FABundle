@@ -62,7 +62,7 @@ final class UserRepository
 
         $query = <<<QUERY
                 UPDATE user_auth_secret
-                SET {$emptySecret} backup_codes = '', email_authentication = 0, email_authentication_code = ''
+                SET {$emptySecret} backup_codes = '', email_authentication = false, email_authentication_code = ''
                 WHERE user_contentobject_id = ?
             QUERY;
         ($this->queryExecutor)($query, [$userId], [PDO::PARAM_INT]);
