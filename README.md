@@ -178,7 +178,8 @@ netgen_ibexa2fa:
                 digits: 6
             2fa_email_method_enabled: true
             2fa_force_setup: false
-
+parameters:
+    netgen_ibexa2fa.backup_codes.enabled: true
 ```
 
 ### Create the table in DB:
