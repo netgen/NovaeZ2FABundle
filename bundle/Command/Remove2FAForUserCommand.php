@@ -19,12 +19,12 @@ final class Remove2FAForUserCommand extends Command
 
     private UserRepository $userRepository;
 
-    public function setAuthenticators(UserProviderInterface $userProvider, UserRepository $userRepository): self
+    public function __construct(UserProviderInterface $userProvider, UserRepository $userRepository)
     {
         $this->userProvider = $userProvider;
         $this->userRepository = $userRepository;
 
-        return $this;
+        parent::__construct();
     }
 
     protected function configure(): void
