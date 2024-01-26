@@ -3,7 +3,10 @@ services:
         autowire: true
         autoconfigure: true
 
-    Netgen\Bundle\Ibexa2FABundle\Command\Remove2FAForUserCommand: ~
+    Netgen\Bundle\Ibexa2FABundle\Command\Remove2FAForUserCommand:
+        arguments:
+            - '@Netgen\Bundle\Ibexa2FABundle\Security\TwoFactorUserProviderDecorator'
+            - '@Netgen\Bundle\Ibexa2FABundle\Core\UserRepository'
 
     Netgen\Bundle\Ibexa2FABundle\Controller\:
         resource: '../../Controller'
